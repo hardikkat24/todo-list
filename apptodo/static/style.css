@@ -1,0 +1,11 @@
+.hov:hover{
+    color: white;
+}
+
+.hov{
+    border-radius: 100px;
+}
+
+form ul{
+    color: red;
+}

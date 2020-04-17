@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ group_list.group_name }}
+{% endblock %}
+
+{% block content %}
+<h2>{{ group_list.group_name }}</h2>
+
+<form method="POST">
+    {% csrf_token %}
+
+    {% for h in form.hidden_fields %}
+    {{ h.errors }}
+    {{ h }}
+    {% endfor %}
+
+    <table>
+        {% for f in form.visible_fields %}
+        <tr>
+            <td>{{ f.label }}</td>
+            <td>
+                {{ f }}
+                {{ f.errors }}
+                {{ f.help_text }}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <button type="submit">Add Member</button>
+</form>
+
+<ol>
+
+{% for object in group_list.usergroup_set.all %}
+    <li>{{ object.member }}</li>
+{% endfor %}
+
+</ol>
+
+{% endblock %}

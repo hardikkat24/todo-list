@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ group.group_name }}
+{% endblock %}
+
+{% block content %}
+<h2>{{ group.group_name }}</h2>
+
+<a href = "{% url 'groupmemberadd' group.pk %}">Manage Members</a>
+
+<form method="POST">
+    {% csrf_token %}
+
+    {% for h in form.hidden_fields %}
+    {{ h.errors }}
+    {{ h }}
+    {% endfor %}
+
+    <table>
+        {% for f in form.visible_fields %}
+        <tr>
+            <td>{{ f.label }}</td>
+            <td>
+                {{ f }}
+                {{ f.errors }}
+                {{ f.help_text }}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <button type="submit">Add Task</button>
+</form>
+
+<ol>
+
+{% for task in group.taskgrouptask_set.all %}
+    <li>
+            <input type="checkbox" {% if task.status %} checked {% endif %}>
+            {{ task.task }}
+            <a href = "{% url 'delete_grouptask' group.pk task.pk%}">Delete</a>
+            <a href = "{% url 'complete_grouptask' group.pk task.pk%}">Done</a>
+        </li>
+{% endfor %}
+
+</ol>
+
+{% endblock %}

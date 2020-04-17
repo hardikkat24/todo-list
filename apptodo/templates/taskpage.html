@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}
+Tasks
+{% endblock %}
+
+{% block content %}
+<form method="POST">
+    {% csrf_token %}
+    {% for h in form.hidden_fields %}
+    {{h.errors}}
+    {{h}}
+    {% endfor %}
+
+
+    <table>
+    {% for f in form.visible_fields %}
+        <tr>
+            <td>{{f.label}}</td>
+            <td>
+                {{f}}
+                {{f.errors}}
+                {{f.help_text}}
+            </td>
+        </tr>
+    {% endfor %}
+    </table>
+
+    <button type="submit">Add Task</button>
+</form>
+<br>
+    <h3>Tasks</h3>
+    <ol>
+        {% for task in user.tasks_set.all %}
+        <li>
+            <input type="checkbox" {% if task.status %} checked {% endif %}>
+            {{ task.task }}
+            <a href = "{% url 'delete' task.pk%}">Delete</a>
+            <a href = "{% url 'complete' task.pk%}">Done</a>
+        </li>
+        {% endfor %}
+    </ol>
+
+    <h3>Groups</h3>
+    <a href="{% url 'creategroup' %}">Add Group</a>
+    <ol>
+        {% for group in user.taskgrouplist_set.all %}
+        <li>
+            <a href = "{% url 'grouppage' group.pk %}">{{ group.group_name }}</a>
+        </li>
+        {% endfor %}
+    </ol>
+{% endblock %}
