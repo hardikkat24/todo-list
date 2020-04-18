@@ -17,14 +17,14 @@ def signup(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
+
             messages.success(request, "Account successfully created")
             return redirect('login')
 
-    else:
-        form = UserCreationForm()
-        context = {
-            'form': form,
-        }
+    form = UserCreationForm()
+    context = {
+        'form': form,
+    }
 
     return render(request, "signup.html", context)
 

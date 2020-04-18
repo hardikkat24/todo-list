@@ -18,10 +18,13 @@
             <a class="navbar-brand" href = "{% url 'home' %}">Todo</a>
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a href = "" class = "nav-link">My Groups</a>
+                    <a href = "{% url 'allgroups' %}" class = "nav-link">My Groups</a>
                 </li>
                 <li class="nav-item">
-                    <a href = "" class = "nav-link">My Tasks</a>
+                    <a href = "{% url 'addtask' %}" class = "nav-link">My Tasks</a>
+                </li>
+                <li class="nav-item">
+                    <a href = "{% url 'creategroup' %}" class = "nav-link">Create Group</a>
                 </li>
                 <li class="nav-item">
                     <a href = "{% url 'logout' %}" class = "nav-link">Log Out</a>

@@ -5,27 +5,25 @@ Create Group
 {% endblock %}
 
 {% block content %}
-<form method="POST">
-    {% csrf_token %}
+<div class="container-fluid text-center py-3 border">
 
-    {% for h in form.hidden_fields %}
-    {{ h.errors }}
-    {{ h }}
-    {% endfor %}
+        <h1>Create Group</h1>
 
-    <table>
-        {% for f in form.visible_fields %}
-        <tr>
-            <td>{{ f.label }}</td>
-            <td>
-                {{ f }}
-                {{ f.errors }}
-                {{ f.help_text }}
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
+        <form method="POST">
+            {% csrf_token %}
+            {% for h in form.hidden_fields %}
+            {{h.errors}}
+            {{h}}
+            {% endfor %}
 
-    <button type="submit">Create Group</button>
-</form>
+            {% for f in form.visible_fields %}
+
+                {{f}}
+
+            {% endfor %}
+            <br>
+            <button type = "submit" class = "btn btn-primary my-2">Add Group</button>
+        </form>
+
+    </div>
 {% endblock %}
