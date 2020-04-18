@@ -9,3 +9,14 @@
 form ul{
     color: red;
 }
+
+ol li{
+    list-style: none;
+}
+
+.clear{
+    clear: both;
+    line-height:0px;
+    font-size:0px;
+    height:0px;
+}

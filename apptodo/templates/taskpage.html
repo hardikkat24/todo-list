@@ -5,41 +5,46 @@ Tasks
 {% endblock %}
 
 {% block content %}
-<form method="POST">
-    {% csrf_token %}
-    {% for h in form.hidden_fields %}
-    {{h.errors}}
-    {{h}}
-    {% endfor %}
-
-
-    <table>
-    {% for f in form.visible_fields %}
-        <tr>
-            <td>{{f.label}}</td>
-            <td>
-                {{f}}
-                {{f.errors}}
-                {{f.help_text}}
-            </td>
-        </tr>
-    {% endfor %}
-    </table>
-
-    <button type="submit">Add Task</button>
-</form>
-<br>
-    <h3>Tasks</h3>
-    <ol>
-        {% for task in user.tasks_set.all %}
-        <li>
-            <input type="checkbox" {% if task.status %} checked {% endif %}>
-            {{ task.task }}
-            <a href = "{% url 'delete' task.pk%}">Delete</a>
-            <a href = "{% url 'complete' task.pk%}">Done</a>
-        </li>
+<div class="container text-center py-3 text-center">
+    <h1>Tasks</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {% for h in form.hidden_fields %}
+        {{h.errors}}
+        {{h}}
         {% endfor %}
-    </ol>
+
+        {% for f in form.visible_fields %}
+            
+            {{f}}
+            
+        {% endfor %}
+        <br>
+        <button type = "submit" class = "btn btn-primary my-2">Add Task</button>
+    </form>
+
+    <br>
+        <ol class = "mt-5">
+            {% for task in user.tasks_set.all %}
+            <hr class="m-0">
+            <li class = "pt-2">
+                <p class="float-left  mx-3 align-middle {% if task.status %} text-success {% else %} text-danger {% endif %}">{{ task.task }}</p>
+                <a href = "{% url 'complete' task.pk %}" class = "btn btn-sm btn-success float-right mx-3">Done</a>
+                <a href = "{% url 'delete' task.pk %}" class = "btn btn-sm btn-danger float-right mx-3">Delete</a>
+            </li>
+            <div class = "clear m-0 p-0"></div>
+            {% endfor %}
+            <hr class="m-0">
+        </ol>
+
+    </div>
 
 
 {% endblock %}
+
+
+
+
+    
+
+    
