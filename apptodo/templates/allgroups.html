@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}
+My Groups
+{% endblock %}
+
+{% block content %}
+<h3>Groups</h3>
+    <a href="{% url 'creategroup' %}">Add Group</a>
+    <ol>
+        {% for group in groups %}
+        <li>
+            <a href = "{% url 'grouppage' group.group_name.pk %}">{{ group.group_name }}</a>
+        </li>
+        {% endfor %}
+    </ol>
+{% endblock %}

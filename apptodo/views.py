@@ -89,6 +89,14 @@ def creategroup(request):
 
 
 @login_required
+def allgroups(request):
+    groups = UserGroup.objects.filter(member = request.user)
+    context = {
+        "groups": groups,
+    }
+    return render(request, "allgroups.html", context)
+
+@login_required
 def group_member_add(request, pk):
     """Adds member to a TaskGroup"""
     group1 = TaskGroupList.objects.get(pk = pk)

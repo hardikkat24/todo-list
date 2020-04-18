@@ -41,13 +41,5 @@ Tasks
         {% endfor %}
     </ol>
 
-    <h3>Groups</h3>
-    <a href="{% url 'creategroup' %}">Add Group</a>
-    <ol>
-        {% for group in user.taskgrouplist_set.all %}
-        <li>
-            <a href = "{% url 'grouppage' group.pk %}">{{ group.group_name }}</a>
-        </li>
-        {% endfor %}
-    </ol>
+
 {% endblock %}
