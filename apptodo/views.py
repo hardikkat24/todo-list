@@ -7,6 +7,8 @@ from .forms import TaskForm, GroupForm, MemberAddForm, TaskGroupTaskForm
 from django.contrib.auth.decorators import login_required
 
 
+
+
 def home(request):
     return render(request, "home.html")
 
@@ -160,3 +162,4 @@ def complete_grouptask(request, id, pk):
     task.status = True
     task.save()
     return redirect('grouppage', pk = id)
+
