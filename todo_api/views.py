@@ -2,15 +2,20 @@ from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.contrib.auth.decorators import login_required
-from .serializers import TasksSerializer
+from .serializers import TaskSerializer
 from django.core.exceptions import PermissionDenied
-from apptodo.models import Tasks
+from .models import Task
 
 
 @api_view(['GET'])
 def apiOverview(request):
     api_urls = {
-        'task-list': '/task-list',
+        'task-list': '/task-list/',
+        'task-detail': '/task-detail/pk/',
+        'task-create': '/task-create/',
+        'task-update': '/task-update/pk/',
+        'task-delete': '/task-delete/pk/',
+
     }
     return Response(api_urls)
 
@@ -18,37 +23,35 @@ def apiOverview(request):
 @login_required
 @api_view(['GET'])
 def apiTaskList(request):
-    tasks = Tasks.objects.filter(username = request.user)
-    serializer = TasksSerializer(tasks, many = True)
+    tasks = Task.objects.filter(username = request.user)
+    serializer = TaskSerializer(tasks, many = True)
     return Response(serializer.data)
 
 
 @login_required
 @api_view(['GET'])
 def apiTaskDetail(request, pk):
-    task = Tasks.objects.get(pk = pk)
-    if request.user == task.username:
-        serializer = TasksSerializer(task, many = False)
+    task = Task.objects.get(pk = pk)
+    if request.user == task.user:
+        serializer = TaskSerializer(task, many = False)
         return Response(serializer.data)
     raise PermissionDenied
-    return
 
 
 @login_required
 @api_view(['GET'])
 def apiTaskDetail(request, pk):
-    task = Tasks.objects.get(pk = pk)
-    if request.user == task.username:
-        serializer = TasksSerializer(task, many = False)
+    task = Task.objects.get(pk = pk)
+    if request.user == task.user:
+        serializer = TaskSerializer(task, many = False)
         return Response(serializer.data)
     raise PermissionDenied
-
 
 
 @login_required
 @api_view(['POST'])
 def apiTaskCreate(request):
-    serializer = TasksSerializer(data=request.data)
+    serializer = TaskSerializer(data=request.data)
 
     if serializer.is_valid():
         serializer.save(username = request.user)
@@ -59,9 +62,9 @@ def apiTaskCreate(request):
 @login_required
 @api_view(['POST'])
 def apiTaskUpdate(request, pk):
-    task = Tasks.objects.get(pk = pk)
-    if task.username == request.user:
-        serializer = TasksSerializer(instance=task, data=request.data)
+    task = Task.objects.get(pk = pk)
+    if task.user == request.user:
+        serializer = TaskSerializer(instance=task, data=request.data)
 
         if serializer.is_valid():
             serializer.save()
@@ -73,8 +76,8 @@ def apiTaskUpdate(request, pk):
 @login_required
 @api_view(['DELETE'])
 def apiTaskDelete(request, pk):
-    task = Tasks.objects.get(pk = pk)
-    if task.username == request.user:
+    task = Task.objects.get(pk = pk)
+    if task.user == request.user:
         task.delete()
         return Response("Successfully Deleted!")
     raise PermissionDenied

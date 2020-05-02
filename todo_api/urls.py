@@ -2,6 +2,8 @@ from django.urls import path
 from . import views
 from django.contrib.auth import views as auth_views
 
+
+# API URLs
 urlpatterns = [
     path('', views.apiOverview, name = 'api-overview'),
     path('task-list/', views.apiTaskList, name = 'api-task-list'),
@@ -10,3 +12,5 @@ urlpatterns = [
     path('task-update/<int:pk>/', views.apiTaskUpdate, name = 'api-task-update'),
     path('task-delete/<int:pk>/', views.apiTaskDelete, name = 'api-task-delete'),
 ]
+
+

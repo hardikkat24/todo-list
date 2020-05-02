@@ -21,7 +21,8 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('todo/', include('apptodo.urls')),
+
     path('api/', include('todo_api.urls')),
-    path('', RedirectView.as_view(url = "todo/home", permanent = True)),
-]+static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+]
+
+              #+static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
