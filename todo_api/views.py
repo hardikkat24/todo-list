@@ -42,7 +42,7 @@ def apiTaskDetail(request, pk):
         serializer = TasksSerializer(task, many = False)
         return Response(serializer.data)
     raise PermissionDenied
-    return
+
 
 
 @login_required
@@ -54,3 +54,27 @@ def apiTaskCreate(request):
         serializer.save(username = request.user)
 
     return Response(serializer.data)
+
+
+@login_required
+@api_view(['POST'])
+def apiTaskUpdate(request, pk):
+    task = Tasks.objects.get(pk = pk)
+    if task.username == request.user:
+        serializer = TasksSerializer(instance=task, data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+
+        return Response(serializer.data)
+    raise PermissionDenied
+
+
+@login_required
+@api_view(['DELETE'])
+def apiTaskDelete(request, pk):
+    task = Tasks.objects.get(pk = pk)
+    if task.username == request.user:
+        task.delete()
+        return Response("Successfully Deleted!")
+    raise PermissionDenied
