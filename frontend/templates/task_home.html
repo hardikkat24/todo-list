@@ -74,28 +74,24 @@ form.addEventListener('submit', function(e){
     fetch(url, {
         method: 'POST',
         headers: {
-
             'Content-Type': 'application/json',
             'X-CSRFToken': csrftoken,
         },
         body: JSON.stringify({
-            'task': task.value,
+            'task': task.value
         })
     }).then(function(response){
-        task_list.innerHTML = task_list.innerHTML +
+        task_list.innerHTML = '<hr class="m-0">' +
         '<li class = "pt-2">'+
             '<p class="float-left  mx-3 align-middle text-danger">' + task.value + '</p>'+
             '<a href = "" class = "btn btn-sm btn-success float-right mx-3">Done</a>'+
             '<a href = "" class = "btn btn-sm btn-danger float-right mx-3">Delete</a>'+
         '</li>'+
-        '<div class = "clear m-0 p-0"></div>'+
-        '<hr class="m-0">'
+        '<div class = "clear m-0 p-0"></div>'
+         + task_list.innerHTML
 
     })
 
-    console.log(JSON.stringify({
-        "task": task.value
-    }))
 })
 
 </script>

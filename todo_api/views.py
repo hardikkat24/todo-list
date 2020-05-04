@@ -39,13 +39,13 @@ def apiTaskDetail(request, pk):
     raise PermissionDenied
 
 
-@csrf_protect
+@login_required
 @api_view(['POST'])
 def apiTaskCreate(request):
     serializer = TaskSerializer(data=request.data)
 
     if serializer.is_valid():
-        serializer.save(username = request.user)
+        serializer.save(user = request.user)
 
     return Response(serializer.data)
 

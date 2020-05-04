@@ -12,12 +12,15 @@ class MyUser(AbstractUser):
 class Task(models.Model):
     """Stores tasks of users"""
     task = models.CharField(max_length=200, blank=False)
-    user = models.ForeignKey(MyUser, on_delete=models.CASCADE, null = False)
+    user = models.ForeignKey(MyUser, on_delete=models.CASCADE, null = False, blank=True)
     posted_on = models.DateTimeField(auto_now_add=True)
-    status = models.BooleanField(default = False, blank = False)
+    status = models.BooleanField(default = False, blank = True)
 
     def __str__(self):
         return self.task
+
+    class Meta:
+        ordering = ['-posted_on']
 
 
 class Group(models.Model):
