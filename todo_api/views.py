@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from .serializers import TaskSerializer
 from django.core.exceptions import PermissionDenied
 from .models import Task
+from django.views.decorators.csrf import csrf_protect
 
 
 @api_view(['GET'])
@@ -23,7 +24,7 @@ def apiOverview(request):
 @login_required
 @api_view(['GET'])
 def apiTaskList(request):
-    tasks = Task.objects.filter(username = request.user)
+    tasks = Task.objects.filter(user = request.user)
     serializer = TaskSerializer(tasks, many = True)
     return Response(serializer.data)
 
@@ -38,17 +39,7 @@ def apiTaskDetail(request, pk):
     raise PermissionDenied
 
 
-@login_required
-@api_view(['GET'])
-def apiTaskDetail(request, pk):
-    task = Task.objects.get(pk = pk)
-    if request.user == task.user:
-        serializer = TaskSerializer(task, many = False)
-        return Response(serializer.data)
-    raise PermissionDenied
-
-
-@login_required
+@csrf_protect
 @api_view(['POST'])
 def apiTaskCreate(request):
     serializer = TaskSerializer(data=request.data)

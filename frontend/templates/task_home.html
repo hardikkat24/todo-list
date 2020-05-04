@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block title %}
+Tasks
+{% endblock %}
+
+{% block content %}
+<div class="container text-center py-3 text-center">
+    <h1>Tasks</h1>
+    <p id = "result"></p>
+    <form method="POST" id = "add_task_form">
+        {% csrf_token %}
+        {% for h in form.hidden_fields %}
+        {{h.errors}}
+        {{h}}
+        {% endfor %}
+
+        {% for f in form.visible_fields %}
+
+            {{f}}
+
+        {% endfor %}
+        <br>
+        <button type = "submit" class = "btn btn-primary my-2">Add Task</button>
+    </form>
+
+    <br>
+        <ol class = "mt-5" id = "task_list">
+            {% for task in user.task_set.all %}
+            <hr class="m-0">
+            <li class = "pt-2">
+                <p class="float-left  mx-3 align-middle {% if task.status %} text-success {% else %} text-danger {% endif %}">{{ task.task }}</p>
+                <a href = "" class = "btn btn-sm btn-success float-right mx-3">Done</a>
+                <a href = "" class = "btn btn-sm btn-danger float-right mx-3">Delete</a>
+            </li>
+            <div class = "clear m-0 p-0"></div>
+            {% endfor %}
+            <hr class="m-0">
+        </ol>
+
+    </div>
+
+
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    var csrftoken = getCookie('csrftoken');
+
+var form = document.getElementById('add_task_form')
+var url = window.location.origin + '/api/task-create/'
+var task = document.getElementById('post-task')
+var task_list = document.getElementById('task_list')
+
+form.addEventListener('submit', function(e){
+    e.preventDefault()
+    console.log(url)
+
+    fetch(url, {
+        method: 'POST',
+        headers: {
+
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrftoken,
+        },
+        body: JSON.stringify({
+            'task': task.value,
+        })
+    }).then(function(response){
+        task_list.innerHTML = task_list.innerHTML +
+        '<li class = "pt-2">'+
+            '<p class="float-left  mx-3 align-middle text-danger">' + task.value + '</p>'+
+            '<a href = "" class = "btn btn-sm btn-success float-right mx-3">Done</a>'+
+            '<a href = "" class = "btn btn-sm btn-danger float-right mx-3">Delete</a>'+
+        '</li>'+
+        '<div class = "clear m-0 p-0"></div>'+
+        '<hr class="m-0">'
+
+    })
+
+    console.log(JSON.stringify({
+        "task": task.value
+    }))
+})
+
+</script>
+{% endblock %}

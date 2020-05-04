@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}
+Home
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid text-center py-3">
+
+    <a class = "btn btn-lg btn-outline-primary text-primary col-md-4 hov" href = "{% url 'login' %}">Log In</a>
+    <br>
+    <a class = "btn btn-lg btn-outline-success text-success col-md-4 mt-3 hov" href = "{% url 'signup' %}">Sign Up</a>
+
+</div>
+{% endblock %}
