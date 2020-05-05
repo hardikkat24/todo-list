@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}
+My Groups
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid text-center py-3 border">
+
+        <h1>Groups</h1>
+
+        <ul class="list-inline mx-auto justify-content-center">
+            {% for group in groups %}
+            <li class="list-inline-item"><h3><a href="{% url 'grouppage' group.group_name.pk %}">{{ group.group_name }}</a></h3></li>
+            <br>
+            {% endfor %}
+        </ul>
+
+        <a class = "btn btn-primary text-white" href = "{% url 'creategroup' %}">Add Group</a>
+
+</div>
+{% endblock %}

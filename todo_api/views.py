@@ -40,7 +40,7 @@ def apiTaskDetail(request, pk):
 
 
 @login_required
-@api_view(['POST'])
+@api_view(['GET', 'POST'])
 def apiTaskCreate(request):
     serializer = TaskSerializer(data=request.data)
 
